@@ -48,13 +48,13 @@ spi = board.SPI()
 # disp = ssd1351.SSD1351(spi, rotation=180,                         # 1.5" SSD1351
 # disp = ssd1351.SSD1351(spi, height=96, y_offset=32, rotation=180, # 1.27" SSD1351
 # disp = ssd1331.SSD1331(spi, rotation=180,                         # 0.96" SSD1331
-disp = ili9341.ILI9341(
+disp = st7789.ST7789(
     spi,
-    rotation=90,  # 2.2", 2.4", 2.8", 3.2" ILI9341
     cs=cs_pin,
     dc=dc_pin,
     rst=reset_pin,
     baudrate=BAUDRATE,
+    width=240, height=320,        
 )
 # pylint: enable=line-too-long
 
@@ -86,7 +86,8 @@ if screen_ratio < image_ratio:
 else:
     scaled_width = width
     scaled_height = image.height * width // image.width
-image = image.resize((scaled_width, scaled_height), Image.Resampling.BICUBIC)
+# image = image.resize((scaled_width, scaled_height), Image.Resampling.BICUBIC)
+image = image.resize((scaled_width, scaled_height), Image.BICUBIC)
 
 # Crop and center the image
 x = scaled_width // 2 - width // 2
